@@ -1,33 +1,26 @@
 ---
 # tasks file for ../ansible-devenv-role
 - name: Upgrade all packages to the latest version
+  sudo: yes
   apt:
     name: "*"
-    state: latest
-
-- name: Install software-properties-common
-  apt:
-    name: software-properties-common
     state: latest
 
 - apt_repository:
     repo: ppa:ansible/ansible
 
-- name: Upgrade all packages to the latest version
-  apt:
-    name: "*"
-    state: latest
-
 - name: Install modules
   apt:
     name: "{{ item }}"
     state: latest
+    update_cache: yes
   when: ansible_distribution == "Ubuntu"
   with_items:
     - zsh
     - make
     - gcc
     - golang
+    - software-properties-common
     - ansible
 
 - name: Download peco

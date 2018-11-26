@@ -1,2 +1,72 @@
 ---
 # tasks file for ../ansible-devenv-role
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+
+- name: Install software-properties-common
+  apt:
+    name: software-properties-common
+    state: latest
+
+- apt_repository:
+    repo: ppa:ansible/ansible
+
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+
+- name: Install modules
+  apt:
+    name: "{{ item }}"
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+  with_items:
+    - zsh
+    - make
+    - gcc
+    - golang
+    - ansible
+
+- name: Download peco
+  unarchive:
+    src: https://github.com/peco/peco/releases/download/v0.5.3/peco_linux_amd64.tar.gz
+    dest: /usr/src
+    remote_src: yes
+
+- name: Move peco module
+  copy:
+    src: /usr/src/peco_linux_amd64/peco
+    dest: /usr/local/bin/peco
+    mode: 0755
+    remote_src: yes
+
+- name: Install ghq
+  command: go get github.com/motemen/ghq
+
+- name: Download Docker installer
+  command: curl -fsSL get.docker.com -o get-docker.sh
+  args:
+    chdir: /usr/src
+
+- name: Install Docker
+  shell: sh get-docker.sh
+  args:
+    chdir: /usr/src
+
+- name: Clone dotfiles repo
+  git:
+    repo: https://github.com/Tocyuki/dotfiles.git
+    dest: $HOME
+
+- name: Create links
+  file:
+    src: "$HOME/dotfiles/{{ item }}"
+    dest: "$HOME/{{ item }}"
+    state: link
+  with_items:
+    - .zshrc
+    - .tmux.conf
+    - .vimrc

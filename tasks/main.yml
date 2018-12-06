@@ -1,27 +1,40 @@
 ---
 # tasks file for ../ansible-devenv-role
 - name: Upgrade all packages to the latest version
-  sudo: yes
   apt:
     name: "*"
     state: latest
+    force_apt_get: yes
+  when: ansible_distribution == "Ubuntu"
 
 - apt_repository:
     repo: ppa:ansible/ansible
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install modules
   apt:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: latest
     update_cache: yes
   when: ansible_distribution == "Ubuntu"
-  with_items:
-    - zsh
-    - make
-    - gcc
-    - golang
-    - software-properties-common
-    - ansible
+  vars:
+    packages:
+      - git
+      - tmux
+      - curl
+      - zsh
+      - make
+      - gcc
+      - golang
+      - software-properties-common
+      - ansible
+
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+    force_apt_get: yes
+  when: ansible_distribution == "Ubuntu"
 
 - name: Download peco
   unarchive:
@@ -36,23 +49,14 @@
     mode: 0755
     remote_src: yes
 
-- name: Install ghq
-  command: go get github.com/motemen/ghq
-
-- name: Download Docker installer
-  command: curl -fsSL get.docker.com -o get-docker.sh
-  args:
-    chdir: /usr/src
-
-- name: Install Docker
-  shell: sh get-docker.sh
-  args:
-    chdir: /usr/src
-
+- name: Clone zplug repo
+  git:
+    repo: https://github.com/zplug/zplug.git
+    dest: $HOME/.zplug
 - name: Clone dotfiles repo
   git:
     repo: https://github.com/Tocyuki/dotfiles.git
-    dest: $HOME
+    dest: $HOME/dotfiles
 
 - name: Create links
   file:
@@ -63,3 +67,16 @@
     - .zshrc
     - .tmux.conf
     - .vimrc
+
+- name: Install ghq
+  shell: export GOPATH=$HOME/go && go get github.com/motemen/ghq
+
+- name: Download Docker installer
+  shell: curl -fsSL get.docker.com -o get-docker.sh
+  args:
+    chdir: /usr/src
+
+- name: Install Docker
+  shell: sh get-docker.sh
+  args:
+    chdir: /usr/src

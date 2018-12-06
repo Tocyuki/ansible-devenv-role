@@ -8,6 +8,11 @@ addons:
     packages:
       - python
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install libgeoip-dev
+  - gem update bundler
+
 install:
   - pip install ansible
   - ansible --version

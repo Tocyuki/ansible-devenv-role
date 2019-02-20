@@ -53,6 +53,7 @@
   git:
     repo: https://github.com/zplug/zplug.git
     dest: $HOME/.zplug
+
 - name: Clone dotfiles repo
   git:
     repo: https://github.com/Tocyuki/dotfiles.git

@@ -1,3 +1,5 @@
+![build status](https://gitlab.com/Tocyuki/ansible-devenv-role/badges/master/build.svg)
+
 Role Name
 =========
 

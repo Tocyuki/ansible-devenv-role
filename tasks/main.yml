@@ -90,6 +90,7 @@
     - .tmux.conf
     - .vimrc
     - .config
+    - .gitconfig
 
 - name: Install ghq
   shell: export GOPATH=$HOME/go && go get github.com/motemen/ghq

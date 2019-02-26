@@ -10,3 +10,5 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y ansible && \
     ansible-playbook -i tests/inventory tests/test.yml
+
+SHELL ["/bin/bash", "-c"]

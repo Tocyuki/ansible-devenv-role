@@ -8,8 +8,11 @@
   when: ansible_distribution == "Ubuntu"
 
 - apt_repository:
-    repo: ppa:ansible/ansible
+    repo: "{{ item }}"
   when: ansible_distribution == "Ubuntu"
+  with_items:
+    - ppa:ansible/ansible
+    - ppa:neovim-ppa/stable
 
 - name: Install modules
   apt:
@@ -28,6 +31,26 @@
       - golang
       - software-properties-common
       - ansible
+      - neovim
+      - python-dev
+      - python-pip
+      - python3-dev
+      - python3-pip
+
+- name: Create cache directory
+  file:
+    path: "$HOME/.cache/dein"
+    state: directory
+
+- name: Download dein.vim installer
+  get_url:
+    url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh
+    dest: $HOME/.cache/dein
+
+- name : Install dein.vim
+  shell: sh ./installer.sh $HOME/.cache/dein
+  args:
+    chdir: $HOME/.cache/dein
 
 - name: Upgrade all packages to the latest version
   apt:
@@ -49,15 +72,13 @@
     mode: 0755
     remote_src: yes
 
-- name: Clone zplug repo
+- name: Clone repository
   git:
-    repo: https://github.com/zplug/zplug.git
-    dest: $HOME/.zplug
-
-- name: Clone dotfiles repo
-  git:
-    repo: https://github.com/Tocyuki/dotfiles.git
-    dest: $HOME/dotfiles
+    repo: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { url: "https://github.com/zplug/zplug.git"     , dest: "$HOME/.zplug"   }
+    - { url: "https://gitlab.com/Tocyuki/dotfiles.git", dest: "$HOME/dotfiles" }
 
 - name: Create links
   file:
@@ -68,6 +89,7 @@
     - .zshrc
     - .tmux.conf
     - .vimrc
+    - .config
 
 - name: Install ghq
   shell: export GOPATH=$HOME/go && go get github.com/motemen/ghq

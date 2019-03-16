@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/Tocyuki/ansible-devenv-role.svg?style=svg&circle-token=e0126f61e0eaef4ceb99f37977fd50b4c2d2e56a)]
+![CircleCI](https://circleci.com/gh/Tocyuki/ansible-devenv-role.svg?style=svg&circle-token=e0126f61e0eaef4ceb99f37977fd50b4c2d2e56a)
 
 Ansible Devenv Role
 =========

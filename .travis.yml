@@ -1,13 +1,12 @@
 ---
-language: python
-python: 2.7
-
 jobs:
   include:
     - os: linux
       dist: bionic
+      language: python
     - os: osx
       osx_image: xcode11.2
+      language: objective-c
 
 addons:
   apt:
@@ -17,6 +16,7 @@ addons:
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update  ;fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install ansible  ;fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ];   then brew install python  ;fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ];   then brew install ansible ;fi
 
 install:
@@ -25,5 +25,4 @@ install:
 
 script:
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-  - ansible-playbook tests/test.yml -i tests/inventory -C
   - ansible-playbook tests/test.yml -i tests/inventory

@@ -1,0 +1,29 @@
+---
+language: python
+python: 2.7
+
+jobs:
+  include:
+    - os: linux
+      dist: bionic
+    - os: osx
+      osx_image: xcode11.2
+
+addons:
+  apt:
+    packages:
+      - python
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update  ;fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install ansible  ;fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ];   then brew install ansible ;fi
+
+install:
+  - ansible --version
+  - printf '[defaults]\nroles_path=../' >ansible.cfg
+
+script:
+  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  - ansible-playbook tests/test.yml -i tests/inventory -C
+  - ansible-playbook tests/test.yml -i tests/inventory

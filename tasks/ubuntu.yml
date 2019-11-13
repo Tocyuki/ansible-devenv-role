@@ -7,26 +7,11 @@
 
 - name: Install modules
   apt:
-    name: "{{ packages }}"
+    name:
+      - "{{ packages_common }}"
+      - "{{ packages_apt }}"
     state: latest
     update_cache: yes
-  vars:
-    packages:
-      - git
-      - tmux
-      - vim
-      - curl
-      - wget
-      - zsh
-      - make
-      - gcc
-      - software-properties-common
-      - ansible
-      - python-dev
-      - python-pip
-      - python-apt
-      - python3-dev
-      - python3-pip
 
 - name: Install golang
   snap:

@@ -1,18 +1,7 @@
 ---
 - name: Install tools
   homebrew:
-      name: "{{ item }}"
+      name:
+        - "{{ packages_common }}"
+        - "{{ packages_brew }}"
       state: present
-  with_items:
-    - git
-    - tmux
-    - zsh
-    - go
-    - vim
-    - ghq
-    - peco
-    - zplug
-    - wget
-    - ansible
-    - packer
-    - terraform

@@ -1,0 +1,22 @@
+---
+- name: Clone repository
+  become: no
+  git:
+    repo: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { url: "https://github.com/zplug/zplug.git"     , dest: "$HOME/.zplug"   }
+    - { url: "https://gitlab.com/Tocyuki/dotfiles.git", dest: "$HOME/dotfiles" }
+
+- name: Create links
+  become: no
+  file:
+    src: "$HOME/dotfiles/{{ item }}"
+    dest: "$HOME/{{ item }}"
+    state: link
+  with_items:
+    - .zshrc
+    - .tmux.conf
+    - .vimrc
+    - .config
+    - .gitconfig

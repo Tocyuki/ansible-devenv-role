@@ -1,7 +1,10 @@
 ---
-- name: Install tools
+- name: Install common packages
   homebrew:
-      name:
-        - "{{ packages_common }}"
-        - "{{ packages_brew }}"
+      name: "{{ packages_common }}"
+      state: present
+
+- name: Install brew packages
+  homebrew:
+      name: "{{ packages_brew }}"
       state: present

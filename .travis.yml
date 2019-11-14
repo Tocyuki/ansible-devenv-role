@@ -1,12 +1,15 @@
 ---
+language: python
+
 jobs:
   include:
     - os: linux
       dist: bionic
       language: python
+      sudo: true
     - os: osx
       osx_image: xcode11.2
-      language: objective-c
+      language: generic
 
 addons:
   apt:

@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
-  remote_user: root
   connection: local
+  become: yes
+  remote_user: root
   roles:
     - ../ansible-devenv-role

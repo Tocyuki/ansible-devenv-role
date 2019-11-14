@@ -1,12 +1,12 @@
 ---
 language: python
+sudo: true
 
 jobs:
   include:
     - os: linux
       dist: bionic
       language: python
-      sudo: true
     - os: osx
       osx_image: xcode11.2
       language: generic

@@ -9,13 +9,11 @@
   apt:
     name: "{{ packages_common }}"
     state: latest
-    update_cache: yes
 
 - name: Install apt packages
   apt:
     name: "{{ packages_apt }}"
     state: latest
-    update_cache: yes
 
 - name: Install golang
   snap:

@@ -4,10 +4,11 @@ packages_common:
   - git
   - tmux
   - vim
-  - curl
-  - wget
   - zsh
   - ansible
+  - curl
+  - wget
+  - tree
 
 packages_apt:
   - make

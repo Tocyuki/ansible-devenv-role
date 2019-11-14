@@ -1,8 +1,9 @@
 ---
 # tasks file for ../ansible-devenv-role
-- apt_repository:
+- name: Add ansible repository
   ignore_errors: true
-    repo: ppa:ansible/ansible
+  apt_repository:
+    repo: "ppa:ansible/ansible"
 
 - name: Install common packages
   apt:

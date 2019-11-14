@@ -1,10 +1,12 @@
 ---
 - name: Install common packages
+  become: no
   homebrew:
       name: "{{ packages_common }}"
       state: present
 
 - name: Install brew packages
+  become: no
   homebrew:
       name: "{{ packages_brew }}"
       state: present

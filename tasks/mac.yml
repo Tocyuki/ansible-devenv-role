@@ -1,12 +1,30 @@
 ---
-- name: Install common packages
+- name: Install common packages on Mac
   become: no
   homebrew:
       name: "{{ packages_common }}"
       state: present
 
-- name: Install brew packages
+- name: Install brew packages for zsh on Mac
   become: no
   homebrew:
-      name: "{{ packages_brew }}"
+      name: "{{ packages_brew_for_zsh }}"
+      state: present
+
+- name: Install brew packages for zsh on Mac
+  become: no
+  homebrew:
+      name: "{{ packages_brew_for_zsh }}"
+      state: present
+
+- name: Install brew packages for devops on Mac
+  become: no
+  homebrew:
+      name: "{{ packages_brew_for_devops }}"
+      state: present
+
+- name: Install brew packages for rbenv on Mac
+  become: no
+  homebrew:
+      name: "{{ packages_brew_for_rbenv }}"
       state: present

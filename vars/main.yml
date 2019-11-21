@@ -4,31 +4,55 @@ packages_common:
   - git
   - tmux
   - vim
-  - zsh
-  - ansible
   - curl
   - wget
   - tree
-
-packages_apt:
   - make
   - gcc
+
+packages_apt_for_add_repository:
   - software-properties-common
+
+packages_apt_for_ansible:
   - python-dev
   - python-pip
   - python-apt
   - python3-dev
   - python3-pip
+  - ansible
 
-packages_brew:
+packages_apt_for_rbenv:
+  - autoconf
+  - bison
+  - build-essential
+  - libssl-dev
+  - libyaml-dev
+  - libreadline6-dev
+  - zlib1g-dev
+  - libncurses5-dev
+  - libffi-dev
+  - libgdbm5
+  - libgdbm-dev
+
+packages_brew_for_zsh:
+  - zsh
+  - zplug
   - go
   - ghq
   - peco
-  - zplug
-  - packer
-  - terraform
-  - awscli
   - zsh-autosuggestions
   - zsh-completions
   - zsh-syntax-highlighting
   - colordiff
+
+packages_brew_for_devops:
+  - ansible
+  - packer
+  - terraform
+  - awscli
+
+packages_brew_for_rbenv:
+  - rbenv
+  - ruby-build
+  - openssl
+  - libyaml

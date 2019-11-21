@@ -1,31 +1,49 @@
 ---
 # tasks file for ../ansible-devenv-role
-- name: Add ansible repository
-  apt_repository:
-    repo: "ppa:ansible/ansible"
-
-- name: Install common packages
+- name: Install common packages on Ubuntu
   apt:
     name: "{{ packages_common }}"
     state: latest
 
-- name: Install apt packages
+- name: Install apt packages for add repository on Ubuntu
   apt:
-    name: "{{ packages_apt }}"
+    name: "{{ packages_apt_for_add_repository }}"
     state: latest
 
-- name: Install golang
+- name: Add ansible repository on Ubuntu
+  apt_repository:
+    repo: "ppa:ansible/ansible"
+
+- name: Install apt packages for ansible on Ubuntu
+  apt:
+    name: "{{ packages_apt_for_ansible }}"
+    state: latest
+
+- name: Install apt packages for rvenv on Ubuntu
+  apt:
+    name: "{{ packages_apt_for_rbenv }}"
+    state: latest
+
+- name: Clone rbenv and ruby-build on Ubuntu
+  become: no
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { repo: 'https://github.com/rbenv/rbenv.git', dest: $HOME/.rbenv }
+    - { repo: 'https://github.com/rbenv/ruby-build.git', dest: $HOME/.rbenv/plugins/ruby-build }
+
+- name: Install golang on Ubuntu
   snap:
     name: go
     channel: 1.12/stable
     classic: yes
 
-- name: Install ghq
-  ignore_errors: true
+- name: Install ghq with go get
   become: no
-  shell: go get github.com/motemen/ghq
+  shell: GO111MODULE=on go get github.com/motemen/ghq
 
-- name: Install peco
+- name: Install peco with go get
   become: no
   shell: go get github.com/peco/peco/cmd/peco
 
@@ -39,7 +57,7 @@
   args:
     chdir: /usr/src
 
-- name: Upgrade all packages to the latest version
+- name: Upgrade all packages to the latest version on Ubuntu
   apt:
     name: "*"
     state: latest

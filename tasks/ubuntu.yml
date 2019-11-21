@@ -40,6 +40,7 @@
     classic: yes
 
 - name: Install ghq with go get
+  ignore_errors: true
   become: no
   shell: GO111MODULE=on go get github.com/motemen/ghq
 
